@@ -9,6 +9,7 @@ import (
 	"flag"
 	"fmt"
 	"html/template"
+	"io"
 	"log"
 	"os"
 	"path"
@@ -22,50 +23,83 @@ func printf(format string, args ...interface{}) (int, error) {
 }
 
 func main() {
+	flag.Usage = func() {
+		fmt.Fprintf(os.Stderr, `%[1]s - generates LaTeX/Beamer slides from present.
+
+Usage of %[1]s:
+
+$ %[1]s [input-file [output.tex]]
+
+Examples:
+
+$ %[1]s input.slide > out.tex
+$ %[1]s input.slide out.tex
+$ %[1]s < input.slide > out.tex
+
+`,
+			os.Args[0],
+		)
+		flag.PrintDefaults()
+	}
+
 	flag.Parse()
-	input := flag.Arg(0)
-	output := input
-	if flag.NArg() > 1 {
-		output = flag.Arg(1)
-	} else {
-		output = input
-		if strings.HasSuffix(output, ".slide") {
-			output = output[:len(output)-len(".slide")] + ".pdf"
-		} else {
-			output += ".pdf"
-		}
-	}
-	printf("input:  [%s]...\n", input)
-	printf("output: [%s]...\n", output)
 
-	f, err := os.Open(input)
-	if err != nil {
-		log.Fatal(err)
-	}
-	defer f.Close()
-
-	doc, err := present.Parse(f, input, 0)
-	if err != nil {
-		log.Fatal(err)
-	}
-
-	printf("doc:\ntitle: %q\nsub: %q\ntime: %v\nauthors: %v\ntags: %v\n",
-		doc.Title, doc.Subtitle, doc.Time, doc.Authors,
-		doc.Tags,
+	var (
+		r      io.Reader
+		w      io.Writer
+		input  = "stdin"
+		output = "stdout"
 	)
-	/*
-		for _, section := range doc.Sections {
-			printf("--- section %v %q---\n", section.Number, section.Title)
-			for _, elem := range section.Elem {
-				switch elem := elem.(type) {
-				default:
-					printf("%#v\n", elem)
-				case present.Code:
-					printf("code: %s\n", string(elem.Raw))
-				}
-			}
+
+	switch flag.NArg() {
+	case 0:
+		r = os.Stdin
+		w = os.Stdout
+	case 1:
+		input = flag.Arg(0)
+		f, err := os.Open(input)
+		if err != nil {
+			log.Fatal(err)
 		}
-	*/
+		defer f.Close()
+		printf("input:  [%s]...\n", input)
+
+		r = f
+		w = os.Stdout
+
+	case 2:
+
+		input = flag.Arg(0)
+		f, err := os.Open(input)
+		if err != nil {
+			log.Fatal(err)
+		}
+		defer f.Close()
+		printf("input:  [%s]...\n", input)
+
+		tex, err := os.Create(output)
+		if err != nil {
+			log.Fatalf("could not create output file [%s]: %v\n", output, err)
+		}
+		defer func() {
+			err = tex.Close()
+			if err != nil {
+				log.Fatalf("could not close output file [%s]: %v\n", output, err)
+			}
+		}()
+
+		r = f
+		w = tex
+
+	default:
+		flag.Usage()
+		os.Exit(2)
+	}
+
+	doc, err := present.Parse(r, input, 0)
+	if err != nil {
+		log.Fatal(err)
+	}
 
 	tmpl, err := initTemplates("templates")
 	if err != nil {
@@ -80,24 +114,9 @@ func main() {
 
 	out := unescapeHTML(buf.Bytes())
 
-	switch output {
-	case "":
-		os.Stdout.Write(out)
-	default:
-		tex, err := os.Create(output)
-		if err != nil {
-			log.Fatalf("could not create output file [%s]: %v\n", err)
-		}
-		defer tex.Close()
-
-		_, err = tex.Write(out)
-		if err != nil {
-			log.Fatalf("could not fill output file [%s]: %v\n", err)
-		}
-		err = tex.Close()
-		if err != nil {
-			log.Fatalf("could not close output file [%s]: %v\n", err)
-		}
+	_, err = w.Write(out)
+	if err != nil {
+		log.Fatalf("could not fill output: %v\n", err)
 	}
 }
 
