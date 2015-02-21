@@ -8,6 +8,7 @@ import (
 	"bytes"
 	"flag"
 	"fmt"
+	"go/build"
 	"html/template"
 	"io"
 	"log"
@@ -16,6 +17,16 @@ import (
 	"strings"
 
 	"golang.org/x/tools/present"
+)
+
+const (
+	basePkg         = "github.com/sbinet/present-tex"
+	basePathMessage = `
+By default, present-tex locates the slide template files and associated
+static content by looking for a %q package
+in your Go workspaces (GOPATH).
+You may use the -base flag to specify an alternate location.
+`
 )
 
 func printf(format string, args ...interface{}) (int, error) {
@@ -28,7 +39,7 @@ func main() {
 
 Usage of %[1]s:
 
-$ %[1]s [input-file [output.tex]]
+$ %[1]s [options] [input-file [output.tex]]
 
 Examples:
 
@@ -36,13 +47,27 @@ $ %[1]s input.slide > out.tex
 $ %[1]s input.slide out.tex
 $ %[1]s < input.slide > out.tex
 
+Options:
 `,
 			os.Args[0],
 		)
 		flag.PrintDefaults()
 	}
 
+	tmpldir := ""
+	flag.StringVar(&tmpldir, "base", "", "base path for slide templates")
+
 	flag.Parse()
+
+	if tmpldir == "" {
+		p, err := build.Default.Import(basePkg, "", build.FindOnly)
+		if err != nil {
+			fmt.Fprintf(os.Stderr, "Couldn't find present-tex files: %v\n", err)
+			fmt.Fprintf(os.Stderr, basePathMessage, basePkg)
+			os.Exit(1)
+		}
+		tmpldir = path.Join(p.Dir, "templates")
+	}
 
 	var (
 		r      io.Reader
@@ -101,7 +126,7 @@ $ %[1]s < input.slide > out.tex
 		log.Fatal(err)
 	}
 
-	tmpl, err := initTemplates("templates")
+	tmpl, err := initTemplates(tmpldir)
 	if err != nil {
 		log.Fatal(err)
 	}
