@@ -19,10 +19,10 @@
 \usetheme{Berkeley}
 
 \hypersetup{%
-  pdftitle={<<.Title>>},%
+  pdftitle={<<.Title | escapeTEX>>},%
 }
 
-\title[<<.Title>>]{<<.Title>>}
+\title[<<.Title | escapeTEX>>]{<<.Title|escapeTEX>>}
 % FIXME(sbinet): authors
 <<if not .Time.IsZero>>\date{<<.Time.Format "2006-01-02">>}<<end>>
 
@@ -37,7 +37,7 @@
 
 <<range $i, $s := .Sections>>
 \begin{frame}[fragile]
-\frametitle{<<$s.Title>>}
+\frametitle{<<$s.Title | escapeTEX>>}
 <<if $s.Elem>>
 <<range $s.Elem>><<elem $.Template .>><<end>>
 <<else>>
@@ -54,10 +54,10 @@
 
 <<define "text">>
 <<if .Pre>>
-\texttt{%
-<<range .Lines>><<. | escapeTEX>>
+\begin{verbatim}
+<<range .Lines>><<.>>
 <<end>>
-}%
+\end{verbatim}
 <<else>>
 <<range .Lines>><<. | escapeTEX>>
 <<end>>

@@ -245,6 +245,7 @@ func init() {
 		r := strings.NewReplacer(
 			"&", `\&`,
 			"_", `\_`,
+			"$", `\$`,
 		)
 		return r.Replace(s)
 	}
