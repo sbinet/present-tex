@@ -2,6 +2,19 @@
 // Use of this source code is governed by a BSD-style
 // license that can be found in the LICENSE file.
 
+// Command present-tex generates LaTeX/Beamer slides from present.
+//
+// Usage of present-tex:
+//
+//   $ present-tex [options] [input-file [output.tex]]
+//
+// Examples:
+//   $ present-tex input.slide > out.tex
+//   $ present-tex input.slide out.tex
+//   $ present-tex < input.slide > out.tex
+//
+// Options:
+//   -base="": base path for slide templates
 package main
 
 import (
