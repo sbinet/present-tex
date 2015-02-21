@@ -174,8 +174,16 @@ func unescapeHTML(data []byte) []byte {
 			new: ">",
 		},
 		{
+			old: "&#43;",
+			new: "+",
+		},
+		{
 			old: "&#34;",
 			new: `"`,
+		},
+		{
+			old: "&#39;",
+			new: "'",
 		},
 		{
 			old: "&quot;",
