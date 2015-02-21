@@ -1,0 +1,81 @@
+{/* This is the bemaer slide template. It defines how presentations are formatted. */}
+
+<<define "root">>
+\documentclass[9pt]{beamer}
+
+\usepackage[latin1]{inputenc}
+\usepackage{colortbl}
+\usepackage[english]{babel}
+
+\newcommand{\myblue} [1] {{\color{blue}#1}}
+
+% for code colouring
+\include{pythonlisting}
+\include{cpplisting}
+\usepackage{minted}
+
+% beamer template
+\usetheme{Berkeley}
+
+\hypersetup{%
+  pdftitle={<<.Title>>},%
+}
+
+\title[<<.Title>>]{<<.Title>>}
+% FIXME(sbinet): authors
+<<if not .Time.IsZero>>\date{<<.Time.Format "2006-01-02">>}<<end>>
+
+\part<presentation>{Main Talk}
+
+\section[slides]{slides}
+
+<<range $i, $s := .Sections>>
+\begin{frame}[fragile]
+\frametitle{<<$s.Title>>}
+<<if $s.Elem>>
+<<range $s.Elem>><<elem $.Template .>><<end>>
+<<else>>
+<<end>>
+\end{frame} % <<$s.Title>>
+<<end>><</* of Slide block */>>
+
+\end{document}
+<<end>>
+
+<<define "newline">>
+\\
+<<end>>
+
+<<define "text">>
+<<if .Pre>>
+\texttt{%
+<<range .Lines>><<.>>
+<<end>>
+}%
+<<else>>
+<<range .Lines>><<.>>
+<<end>>
+<<end>>
+<<end>>
+
+<<define "list">>
+\begin{itemize}
+<<range .Bullet>>\item <<.>>
+<<end>>
+\end{itemize}
+<<end>>
+
+<<define "code">>
+\begin{minted}[]{<<.Ext | nodot>>}
+<<.Raw | stringFromBytes>>
+\end{minted}
+<<end>>
+
+<<define "image">>
+\includegraphics[width=<<.Width>>,height=<<.Height>>]{<<.URL>>}
+<<end>>
+
+<<define "link">>
+\myblue{\href{<<.URL>>}{\texttt{<<.Label>>}}}
+<<end>>
+
