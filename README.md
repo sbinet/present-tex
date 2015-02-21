@@ -9,6 +9,26 @@ present-tex
 $ go get github.com/sbinet/present-tex
 ```
 
+## Documentation
+
+Available from [godoc.org](https://godoc.org/github.com/sbinet/present-tex) and from the command-line:
+
+```sh
+$ present-tex -h
+present-tex - generates LaTeX/Beamer slides from present.
+
+Usage of present-tex:
+
+$ present-tex [input-file [output.tex]]
+
+Examples:
+
+$ present-tex input.slide > out.tex
+$ present-tex input.slide out.tex
+$ present-tex < input.slide > out.tex
+
+```
+
 ## Example
 
 ```sh
