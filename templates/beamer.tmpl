@@ -55,18 +55,18 @@
 <<define "text">>
 <<if .Pre>>
 \texttt{%
-<<range .Lines>><<.>>
+<<range .Lines>><<. | escapeTEX>>
 <<end>>
 }%
 <<else>>
-<<range .Lines>><<.>>
+<<range .Lines>><<. | escapeTEX>>
 <<end>>
 <<end>>
 <<end>>
 
 <<define "list">>
 \begin{itemize}
-<<range .Bullet>>\item <<.>>
+<<range .Bullet>>\item <<. | escapeTEX>>
 <<end>>
 \end{itemize}
 <<end>>

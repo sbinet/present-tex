@@ -241,6 +241,14 @@ func init() {
 		}
 		return s
 	}
+	funcs["escapeTEX"] = func(s string) string {
+		r := strings.NewReplacer(
+			"&", `\&`,
+			"_", `\_`,
+		)
+		return r.Replace(s)
+	}
+
 }
 
 // execTemplate is a helper to execute a template and return the output as a
