@@ -78,8 +78,64 @@ func main() {
 		log.Fatal(err)
 	}
 
-	out := bytes.Replace(buf.Bytes(), []byte(`&#34;`), []byte(`"`), -1)
-	os.Stdout.Write(out)
+	out := unescapeHTML(buf.Bytes())
+
+	switch output {
+	case "":
+		os.Stdout.Write(out)
+	default:
+		tex, err := os.Create(output)
+		if err != nil {
+			log.Fatalf("could not create output file [%s]: %v\n", err)
+		}
+		defer tex.Close()
+
+		_, err = tex.Write(out)
+		if err != nil {
+			log.Fatalf("could not fill output file [%s]: %v\n", err)
+		}
+		err = tex.Close()
+		if err != nil {
+			log.Fatalf("could not close output file [%s]: %v\n", err)
+		}
+	}
+}
+
+func unescapeHTML(data []byte) []byte {
+	out := make([]byte, len(data))
+	copy(out, data)
+	for _, r := range []struct {
+		old string
+		new string
+	}{
+		{
+			old: "&lt;",
+			new: "<",
+		},
+		{
+			old: "&gt;",
+			new: ">",
+		},
+		{
+			old: "&#34;",
+			new: `"`,
+		},
+		{
+			old: "&quot;",
+			new: `"`,
+		},
+		{
+			old: "&amp;",
+			new: "&",
+		},
+		{
+			old: "&nbsp;",
+			new: " ",
+		},
+	} {
+		out = bytes.Replace(out, []byte(r.old), []byte(r.new), -1)
+	}
+	return out
 }
 
 func initTemplates(base string) (*template.Template, error) {
