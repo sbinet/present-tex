@@ -5,7 +5,7 @@ present-tex
 
 ## Installation
 
-```go
+```sh
 $ go get github.com/sbinet/present-tex
 ```
 
