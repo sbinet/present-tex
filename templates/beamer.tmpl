@@ -15,6 +15,7 @@
 \usepackage{minted}
 
 % beamer template
+\beamertemplatetransparentcovereddynamic
 \usetheme{Berkeley}
 
 \hypersetup{%
@@ -24,6 +25,11 @@
 \title[<<.Title>>]{<<.Title>>}
 % FIXME(sbinet): authors
 <<if not .Time.IsZero>>\date{<<.Time.Format "2006-01-02">>}<<end>>
+
+\begin{document}
+
+\frame{\titlepage
+}
 
 \part<presentation>{Main Talk}
 
