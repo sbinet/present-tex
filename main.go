@@ -115,6 +115,9 @@ Options:
 		defer f.Close()
 		printf("input:  [%s]...\n", input)
 
+		output = flag.Arg(1)
+		printf("output: [%s]...\n", output)
+
 		tex, err := os.Create(output)
 		if err != nil {
 			log.Fatalf("could not create output file [%s]: %v\n", output, err)
