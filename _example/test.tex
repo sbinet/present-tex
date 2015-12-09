@@ -1,0 +1,141 @@
+
+\documentclass[9pt]{beamer}
+
+\usepackage[latin1]{inputenc}
+\usepackage{colortbl}
+\usepackage[english]{babel}
+
+\newcommand{\myblue} [1] {{\color{blue}#1}}
+
+% for code colouring
+\include{pythonlisting}
+\include{cpplisting}
+\usepackage{minted}
+
+% beamer template
+\beamertemplatetransparentcovereddynamic
+\usetheme{Berkeley}
+
+\hypersetup{%
+  pdftitle={my talk: a nice talk},%
+}
+
+\title[my talk: a nice talk]{my talk: a nice talk}
+% FIXME(sbinet): authors
+
+
+\begin{document}
+
+\frame{\titlepage
+}
+
+\part<presentation>{Main Talk}
+
+\section[slides]{slides}
+
+
+\begin{frame}[fragile]
+\frametitle{A chapter}
+
+
+\end{frame}
+
+\begin{frame}[fragile]
+\frametitle{A title}
+
+
+
+\myblue{\href{https://github.com/sbinet/present-tex}{\texttt{present-tex}}} converts a \texttt{.slide}
+presentation to a \texttt{LaTeX/Beamer} presentation.
+
+
+
+
+Here are some bullets:
+
+
+
+\begin{itemize}
+\item correctly rendered
+\item but not numbered
+
+\end{itemize}
+
+
+\end{frame}
+
+\begin{frame}[fragile]
+\frametitle{\texttt{present-tex} and \texttt{code}}
+
+
+
+Consider this simple package \texttt{github.com/me/hello}:
+
+
+
+\begin{minted}[]{go}
+package main
+
+import (
+	"fmt"
+)
+
+func main() {
+	fmt.Printf("hello world\n")
+}
+
+\end{minted}
+
+
+\end{frame}
+
+\begin{frame}[fragile]
+\frametitle{\texttt{present-tex} and text formatting}
+
+
+
+\texttt{present-tex} should be able to correctly handle URLs like
+\myblue{\href{https://github.com/sbinet/present-tex}{\texttt{so}}}.
+
+
+
+
+But, also, \textbf{bold} text and text in \emph{italics}.
+
+
+
+
+Special \texttt{LaTeX} characters, such as \&\$\%\texttt{\^}\_, are also correctly handled.
+
+
+
+\myblue{\href{https://github.com/sbinet/present-tex}{\texttt{github.com/sbinet/present-tex}}}
+
+
+Snippets of code look like so:
+
+
+
+
+\begin{verbatim}
+bla-bla
+other bla
+
+\end{verbatim}
+
+
+
+\myblue{\href{https://github.com/sbinet/present-tex}{\texttt{github.com/sbinet/present-tex}}} is still a \emph{work in progress}.
+
+
+
+
+The End.
+
+
+
+
+\end{frame}
+
+
+\end{document}
