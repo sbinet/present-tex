@@ -38,10 +38,10 @@ Special `LaTeX` characters, such as &$%^_, are also correctly handled.
 
 Snippets of code look like so:
 
- bla-bla
- other bla
+ $> ls /my/dir
+ $> exit
 
 [[https://github.com/sbinet/present-tex]] is still a _work_in_progress_.
 
 
-The End.
+*The*END.*
