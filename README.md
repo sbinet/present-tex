@@ -35,6 +35,11 @@ Options:
 
 ```sh
 $ present-tex my.slide > my.tex
-$ pdflatex my.tex
+$ pdflatex -shell-escape my.tex
 ```
+
+The `_example` directory holds a simple presentation together with its `TeX` and
+`PDF` outputs.
+[Here](http://talks.godoc.org/github.com/sbinet/present-tex/_example/test.slide)
+is the `present` presentation as served by `godoc`.
 
