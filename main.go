@@ -42,6 +42,10 @@ You may use the -base flag to specify an alternate location.
 `
 )
 
+var (
+	beamerTheme = flag.String("beamer-theme", "Berkeley", "Beamer theme to use")
+)
+
 func printf(format string, args ...interface{}) (int, error) {
 	return fmt.Fprintf(os.Stderr, format, args...)
 }
@@ -264,6 +268,10 @@ func init() {
 		s = string(renderStyle(s))
 		s = tex2.Replace(s)
 		return s
+	}
+
+	funcs["beamerTheme"] = func() string {
+		return *beamerTheme
 	}
 
 }
