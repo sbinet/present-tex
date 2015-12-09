@@ -32,7 +32,7 @@ Consider this simple package `github.com/me/hello`:
 
 But, also, *bold* text and text in _italics_.
 
-Special `LaTeX` characters, such as &$%^_, are also correctly handled.
+Special `LaTeX` characters, such as &{}\$%^_#, are also correctly handled.
 
 .link https://github.com/sbinet/present-tex
 

@@ -244,18 +244,26 @@ func init() {
 		}
 		return s
 	}
-	escapeTEX := func(s string) string {
-		r := strings.NewReplacer(
-			"&", `\&`,
-			"_", `\_`,
-			"$", `\$`,
-			"^", `\texttt{\^}`,
-			"%", `\%`,
-		)
-		return r.Replace(s)
-	}
+	tex1 := strings.NewReplacer(
+		"&", `\&`,
+		"$", `\$`,
+		"^", `\^{}`,
+		"%", `\%`,
+		"~", `\~{}`,
+		"#", `\#`,
+		"{", `\{`,
+		"}", `\}`,
+		`\`, `\textbackslash`,
+	)
+	tex2 := strings.NewReplacer(
+		"_", `\_`,
+	)
+
 	funcs["style"] = func(s string) string {
-		return escapeTEX(string(renderStyle(s)))
+		s = tex1.Replace(s)
+		s = string(renderStyle(s))
+		s = tex2.Replace(s)
+		return s
 	}
 
 }
