@@ -241,14 +241,18 @@ func init() {
 		}
 		return s
 	}
-	funcs["escapeTEX"] = func(s string) string {
+	escapeTEX := func(s string) string {
 		r := strings.NewReplacer(
 			"&", `\&`,
 			"_", `\_`,
 			"$", `\$`,
 			"^", `\texttt{\^}`,
+			"%", `\%`,
 		)
 		return r.Replace(s)
+	}
+	funcs["style"] = func(s string) string {
+		return escapeTEX(string(renderStyle(s)))
 	}
 
 }
