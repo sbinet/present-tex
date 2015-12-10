@@ -146,6 +146,11 @@ Options:
 		log.Fatal(err)
 	}
 
+	err = parseImages(doc)
+	if err != nil {
+		log.Fatal(err)
+	}
+
 	tmpl, err := initTemplates(tmpldir)
 	if err != nil {
 		log.Fatal(err)
@@ -273,7 +278,6 @@ func init() {
 	funcs["beamerTheme"] = func() string {
 		return *beamerTheme
 	}
-
 }
 
 // execTemplate is a helper to execute a template and return the output as a

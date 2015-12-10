@@ -10,8 +10,6 @@
 \newcommand{\myblue} [1] {{\color{blue}#1}}
 
 % for code colouring
-\include{pythonlisting}
-\include{cpplisting}
 \usepackage{minted}
 
 % beamer template
@@ -78,7 +76,9 @@
 <<end>>
 
 <<define "image">>
-\includegraphics[width=<<.Width>>px,height=<<.Height>>px]{<<.URL>>}
+\begin{center}
+\includegraphics[width=<<.Width>>cm,height=<<.Height>>cm]{<<.URL>>}
+\end{center}
 <<end>>
 
 <<define "link">>
