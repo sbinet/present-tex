@@ -275,12 +275,13 @@ func init() {
 		"_", `\_`,
 	)
 
-	funcs["style"] = func(s string) string {
+	style := func(s string) string {
 		s = tex1.Replace(s)
 		s = string(renderStyle(s))
 		s = tex2.Replace(s)
 		return s
 	}
+	funcs["style"] = style
 
 	funcs["beamerTheme"] = func() string {
 		return *beamerTheme
@@ -297,21 +298,27 @@ func init() {
 			if name == "" {
 				continue
 			}
-			out = append(out, fmt.Sprintf(" pdfauthor={%s},%%\n", name))
+			out = append(out, fmt.Sprintf(" pdfauthor={%s},%%\n", style(name)))
 		}
 		return strings.Join(out, " ")
 	}
 
 	funcs["texAuthor"] = func(authors []present.Author) string {
 		out := make([]string, 0, len(authors))
+		shorts := make([]string, 0, len(authors))
 		for _, a := range authors {
 			name, inst, mail := parseAuthor(a)
 			if name == "" {
 				continue
 			}
+			if len(shorts) > 0 {
+				shorts = append(shorts, "\\&")
+			}
+			shorts = append(shorts, style(name))
 			if len(out) > 0 {
 				out = append(out, "\\and %\n")
 			}
+			inst = style(inst)
 			if inst == "" {
 				inst = "\\quad"
 			}
@@ -321,11 +328,11 @@ func init() {
 			}
 			out = append(out, fmt.Sprintf(
 				" \\newauthor{%[1]s}{%[2]s}{%[3]s}{%[4]s}%%\n",
-				name, url, mail.Label, inst,
+				style(name), style(url), style(mail.Label), inst,
 			))
 		}
 		if len(out) > 0 {
-			out = append([]string{"\\author{\n"}, out...)
+			out = append([]string{"\\author[" + strings.Join(shorts, " ") + "]{\n"}, out...)
 			out = append(out, "}\n")
 		}
 		return strings.Join(out, " ")
