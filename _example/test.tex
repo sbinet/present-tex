@@ -113,6 +113,45 @@ func main() {
 \end{frame}
 
 \begin{frame}[fragile]
+\frametitle{\texttt{.code} support}
+
+
+
+\texttt{present-tex} infers the language of a \texttt{.code} snippet based on the file extension.
+
+
+
+
+Here is some \texttt{C}:
+
+
+
+\begin{minted}[]{c}
+#include <stdio.h>
+
+int main(int argc, char **argv) {
+	printf("hello world\n");
+	return 0;
+}
+
+\end{minted}
+
+
+And here is some \texttt{python}:
+
+
+
+\begin{minted}[]{py}
+#!/usr/bin/env python2
+from __future__ import print_function
+print("hello world")
+
+\end{minted}
+
+
+\end{frame}
+
+\begin{frame}[fragile]
 \frametitle{\texttt{present-tex} and images}
 
 

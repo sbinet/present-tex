@@ -31,6 +31,16 @@ Consider this simple package `github.com/me/hello`:
 
 .play _code/hello.go
 
+* `.code` support
+
+`present-tex` infers the language of a `.code` snippet based on the file extension.
+
+Here is some `C`:
+.code _code/hello.c
+
+And here is some `python`:
+.code _code/hello.py
+
 * `present-tex` and images
 
 Images are supported, such as this lovely `PNG` gopher:
