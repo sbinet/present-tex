@@ -43,7 +43,8 @@ You may use the -base flag to specify an alternate location.
 )
 
 var (
-	hasCode     = false // whether the .slide has a .code or .play directive
+	tmpl        *template.Template // beamer template
+	hasCode     = false            // whether the .slide has a .code or .play directive
 	beamerTheme = flag.String("beamer-theme", "default", "Beamer theme to use (e.g: Berkeley, Madrid, ...)")
 	dpi         = flag.Int("dpi", 72, "DPI resolution to use for PDF")
 )
@@ -158,7 +159,7 @@ Options:
 		log.Fatal(err)
 	}
 
-	tmpl, err := initTemplates(tmpldir)
+	tmpl, err = initTemplates(tmpldir)
 	if err != nil {
 		log.Fatal(err)
 	}
@@ -304,32 +305,30 @@ func init() {
 	}
 
 	funcs["texAuthor"] = func(authors []present.Author) string {
+		const hdr = "\\parbox{0.26\\textwidth}{\n\t\\texorpdfstring\n\t  {\n\t\t\\centering\n"
 		out := make([]string, 0, len(authors))
 		shorts := make([]string, 0, len(authors))
 		for _, a := range authors {
-			name, inst, mail := parseAuthor(a)
+			elems := renderAuthor(a)
+			if len(elems) == 0 {
+				continue
+			}
+			name := elems[0]
 			if name == "" {
 				continue
 			}
 			if len(shorts) > 0 {
 				shorts = append(shorts, "\\&")
 			}
-			shorts = append(shorts, style(name))
+			shorts = append(shorts, name)
 			if len(out) > 0 {
 				out = append(out, "\\and %\n")
 			}
-			inst = style(inst)
-			if inst == "" {
-				inst = "\\quad"
+			out = append(out, hdr)
+			for _, elem := range elems {
+				out = append(out, "\t\t"+elem+` \\`+"\n")
 			}
-			url := ""
-			if mail.URL != nil {
-				url = mail.URL.String()
-			}
-			out = append(out, fmt.Sprintf(
-				" \\newauthor{%[1]s}{%[2]s}{%[3]s}{%[4]s}%%\n",
-				style(name), style(url), style(mail.Label), inst,
-			))
+			out = append(out, "\t  }\n\t{"+elems[0]+"}\n}\n")
 		}
 		if len(out) > 0 {
 			out = append([]string{"\\author[" + strings.Join(shorts, " ") + "]{\n"}, out...)
@@ -337,6 +336,23 @@ func init() {
 		}
 		return strings.Join(out, " ")
 	}
+}
+
+func renderAuthor(author present.Author) []string {
+	var elems []string
+	if len(author.Elem) == 0 {
+		return elems
+	}
+	for _, e := range author.Elem {
+		str, err := renderElem(tmpl, e)
+		if err != nil {
+			log.Fatal(err)
+		}
+		elem := string(unescapeHTML([]byte(str)))
+		elem = strings.Trim(elem, "\n")
+		elems = append(elems, elem)
+	}
+	return elems
 }
 
 func parseAuthor(author present.Author) (name string, inst string, mail present.Link) {
