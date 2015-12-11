@@ -6,6 +6,18 @@
 \usepackage[english]{babel}
 
 \newcommand{\myblue} [1] {{\color{blue}#1}}
+\newcommand{\newauthor}[4]{
+  \parbox{0.26\textwidth}{
+    \texorpdfstring
+      {
+        \centering
+        #1 \\
+		\myblue{{\href{#2}{\texttt{#3}}}} \\
+		#4 \\
+      }
+      {#1}
+  }
+}
 
 
 % for code colouring
@@ -18,10 +30,15 @@
 
 \hypersetup{%
   pdftitle={my talk: a nice talk},%
+   pdfauthor={Sebastien Binet},%
+%
 }
 
 \title[my talk: a nice talk]{my talk: a nice talk}
-% FIXME(sbinet): authors
+\author{
+  \newauthor{Sebastien Binet}{http://twitter.com/0xb1ns}{@0xb1ns}{CNRS/IN2P3}%
+ }
+
 
 
 \begin{document}

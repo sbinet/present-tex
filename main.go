@@ -289,6 +289,68 @@ func init() {
 	funcs["hasCode"] = func() bool {
 		return hasCode
 	}
+
+	funcs["pdfAuthor"] = func(authors []present.Author) string {
+		out := make([]string, 0, len(authors))
+		for _, a := range authors {
+			name, _, _ := parseAuthor(a)
+			if name == "" {
+				continue
+			}
+			out = append(out, fmt.Sprintf(" pdfauthor={%s},%%\n", name))
+		}
+		return strings.Join(out, " ")
+	}
+
+	funcs["texAuthor"] = func(authors []present.Author) string {
+		out := make([]string, 0, len(authors))
+		for _, a := range authors {
+			name, inst, mail := parseAuthor(a)
+			if name == "" {
+				continue
+			}
+			if len(out) > 0 {
+				out = append(out, "\\and")
+			}
+			out = append(out, fmt.Sprintf(
+				" \\newauthor{%[1]s}{%[2]s}{%[3]s}{%[4]s}%%\n",
+				name, mail.URL.String(), mail.Label, inst,
+			))
+		}
+		if len(out) > 0 {
+			out = append([]string{"\\author{\n"}, out...)
+			out = append(out, "}\n")
+		}
+		return strings.Join(out, " ")
+	}
+}
+
+func parseAuthor(author present.Author) (name string, inst string, mail present.Link) {
+	elems := author.TextElem()
+	if len(elems) == 0 {
+		return
+	}
+	getLines := func(i int) []string {
+		lines := elems[i].(present.Text).Lines
+		return lines
+	}
+
+	name = strings.TrimSpace(getLines(0)[0])
+	if name == "" {
+		return
+	}
+
+	inst = strings.TrimSpace(getLines(1)[0])
+	for _, elem := range author.Elem {
+		link, ok := elem.(present.Link)
+		if !ok {
+			continue
+		}
+		if strings.Contains(link.Label, "@") {
+			mail = link
+		}
+	}
+	return
 }
 
 // execTemplate is a helper to execute a template and return the output as a

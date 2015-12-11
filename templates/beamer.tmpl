@@ -8,6 +8,18 @@
 \usepackage[english]{babel}
 
 \newcommand{\myblue} [1] {{\color{blue}#1}}
+\newcommand{\newauthor}[4]{
+  \parbox{0.26\textwidth}{
+    \texorpdfstring
+      {
+        \centering
+        #1 \\
+        \myblue{{\href{#2}{\texttt{#3}}}} \\
+        #4 \\
+      }
+      {#1}
+  }
+}
 
 <<if hasCode>>
 % for code colouring
@@ -20,10 +32,11 @@
 
 \hypersetup{%
   pdftitle={<<.Title | style>>},%
+  <<.Authors | pdfAuthor>>%
 }
 
 \title[<<.Title | style>>]{<<.Title|style>>}
-% FIXME(sbinet): authors
+<<.Authors | texAuthor>>
 <<if not .Time.IsZero>>\date{<<.Time.Format "2006-01-02">>}<<end>>
 
 \begin{document}
