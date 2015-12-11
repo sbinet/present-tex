@@ -43,7 +43,8 @@ You may use the -base flag to specify an alternate location.
 )
 
 var (
-	beamerTheme = flag.String("beamer-theme", "Berkeley", "Beamer theme to use")
+	hasCode     = false // whether the .slide has a .code or .play directive
+	beamerTheme = flag.String("beamer-theme", "default", "Beamer theme to use (e.g: Berkeley, Madrid, ...)")
 	dpi         = flag.Int("dpi", 72, "DPI resolution to use for PDF")
 )
 
@@ -148,6 +149,11 @@ Options:
 	}
 
 	err = parseImages(doc)
+	if err != nil {
+		log.Fatal(err)
+	}
+
+	err = parseCode(doc)
 	if err != nil {
 		log.Fatal(err)
 	}
@@ -278,6 +284,10 @@ func init() {
 
 	funcs["beamerTheme"] = func() string {
 		return *beamerTheme
+	}
+
+	funcs["hasCode"] = func() bool {
+		return hasCode
 	}
 }
 
