@@ -40,9 +40,11 @@ Consider this simple package `github.com/me/hello`:
 `present-tex` infers the language of a `.code` snippet based on the file extension.
 
 Here is some `C`:
+
 .code _code/hello.c
 
 And here is some `python`:
+
 .code _code/hello.py
 
 * `present-tex` and images
