@@ -25,6 +25,12 @@ Consider this simple package `github.com/me/hello`:
 
 .code _code/hello.go
 
+* `present-tex` and `play`
+
+`present-tex` has some limited supported for `.play`:
+
+.play _code/hello.go
+
 * `present-tex` and images
 
 Images are supported, such as this lovely `PNG` gopher:
