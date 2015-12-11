@@ -73,10 +73,10 @@ func parseImage(elem *present.Image) error {
 
 	}
 
-	// rescale height/width to a 72 DPI resolution
+	// rescale height/width to a (default=72) DPI resolution
 	// height and width are now in inches.
-	elem.Height /= 72
-	elem.Width /= 72
+	elem.Height /= *dpi
+	elem.Width /= *dpi
 
 	return err
 }

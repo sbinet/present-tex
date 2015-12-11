@@ -44,6 +44,7 @@ You may use the -base flag to specify an alternate location.
 
 var (
 	beamerTheme = flag.String("beamer-theme", "Berkeley", "Beamer theme to use")
+	dpi         = flag.Int("dpi", 72, "DPI resolution to use for PDF")
 )
 
 func printf(format string, args ...interface{}) (int, error) {
