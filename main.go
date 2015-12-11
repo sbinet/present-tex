@@ -310,11 +310,18 @@ func init() {
 				continue
 			}
 			if len(out) > 0 {
-				out = append(out, "\\and")
+				out = append(out, "\\and %\n")
+			}
+			if inst == "" {
+				inst = "\\quad"
+			}
+			url := ""
+			if mail.URL != nil {
+				url = mail.URL.String()
 			}
 			out = append(out, fmt.Sprintf(
 				" \\newauthor{%[1]s}{%[2]s}{%[3]s}{%[4]s}%%\n",
-				name, mail.URL.String(), mail.Label, inst,
+				name, url, mail.Label, inst,
 			))
 		}
 		if len(out) > 0 {
@@ -340,7 +347,9 @@ func parseAuthor(author present.Author) (name string, inst string, mail present.
 		return
 	}
 
-	inst = strings.TrimSpace(getLines(1)[0])
+	if len(elems) > 1 {
+		inst = strings.TrimSpace(getLines(1)[0])
+	}
 	for _, elem := range author.Elem {
 		link, ok := elem.(present.Link)
 		if !ok {
