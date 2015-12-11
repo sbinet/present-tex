@@ -45,8 +45,7 @@ or that lovely gopher:
 
 * `present-tex` and text formatting
 
-`present-tex` should be able to correctly handle URLs like
-[[https://github.com/sbinet/present-tex][so]].
+`present-tex` should be able to correctly handle URLs like [[https://github.com/sbinet/present-tex][so]].
 
 But, also, *bold* text and text in _italics_.
 
