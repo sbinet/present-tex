@@ -8,13 +8,16 @@ func parseCode(doc *present.Doc) error {
 	var err error
 	for i := range doc.Sections {
 		section := &doc.Sections[i]
-		for _, elem := range section.Elem {
-			switch elem.(type) {
+		for ii, elem := range section.Elem {
+			switch elem := elem.(type) {
 			default:
 				continue
 			case present.Code:
 				hasCode = true
-				return err
+				if elem.Ext == ".cxx" {
+					elem.Ext = ".cpp"
+				}
+				section.Elem[ii] = elem
 			}
 		}
 	}
