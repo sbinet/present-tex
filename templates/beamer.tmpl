@@ -1,4 +1,4 @@
-{/* This is the bemaer slide template. It defines how presentations are formatted. */}
+{/* This is the beamer slide template. It defines how presentations are formatted. */}
 
 <<define "root">>
 \documentclass[9pt]{beamer}
@@ -86,9 +86,16 @@
 <<end>>
 
 <<define "image">>
+\begin{figure}[h]
 \begin{center}
 \includegraphics[width=<<.Width>>cm,height=<<.Height>>cm]{<<.URL>>}
 \end{center}
+<<if .HasCaption>><<template "caption" .Caption>><<end>>
+\end{figure}
+<<end>>
+
+<<define "caption">>
+\caption{<<.Text>>}
 <<end>>
 
 <<define "link">>

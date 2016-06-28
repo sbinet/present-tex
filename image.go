@@ -11,6 +11,12 @@ import (
 	"golang.org/x/tools/present"
 )
 
+type Image struct {
+	present.Image
+	HasCaption bool
+	Caption    present.Caption
+}
+
 func parseImages(doc *present.Doc) error {
 	var err error
 	for i := range doc.Sections {
@@ -25,11 +31,27 @@ func parseImages(doc *present.Doc) error {
 				if err != nil {
 					return err
 				}
-				section.Elem[j] = elem
+				img := Image{Image: elem}
+				if j+1 < len(section.Elem) {
+					if elem, ok := section.Elem[j+1].(present.Caption); ok {
+						err = parseCaption(&elem)
+						if err != nil {
+							return err
+						}
+						img.HasCaption = true
+						img.Caption = elem
+					}
+				}
+				section.Elem[j] = img
 			}
 		}
 	}
-	return err
+
+	if err != nil {
+		return err
+	}
+
+	return parseCaptions(doc)
 }
 
 func parseImage(elem *present.Image) error {
