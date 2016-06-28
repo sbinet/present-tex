@@ -26,7 +26,7 @@ func parseInlineLink(s string) (link string, length int) {
 		return
 	}
 	urlEnd := strings.Index(s, "]")
-	rawURL := s[2:urlEnd]
+	rawURL := strings.Replace(s[2:urlEnd], `\&`, "&", -1)
 	const badURLChars = `<>"{}|\^[] ` + "`" // per RFC2396 section 2.4.3
 	if strings.ContainsAny(rawURL, badURLChars) {
 		return
