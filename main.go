@@ -49,10 +49,6 @@ var (
 	dpi         = flag.Int("dpi", 72, "DPI resolution to use for PDF")
 )
 
-func printf(format string, args ...interface{}) (int, error) {
-	return fmt.Fprintf(os.Stderr, format, args...)
-}
-
 func main() {
 	flag.Usage = func() {
 		fmt.Fprintf(os.Stderr, `%[1]s - generates LaTeX/Beamer slides from present.
@@ -73,6 +69,9 @@ Options:
 		)
 		flag.PrintDefaults()
 	}
+
+	log.SetFlags(0)
+	log.SetPrefix("present-tex: ")
 
 	tmpldir := ""
 	flag.StringVar(&tmpldir, "base", "", "base path for slide templates")
@@ -107,7 +106,7 @@ Options:
 			log.Fatal(err)
 		}
 		defer f.Close()
-		printf("input:  [%s]...\n", input)
+		log.Printf("input:  [%s]...\n", input)
 
 		r = f
 		w = os.Stdout
@@ -120,10 +119,10 @@ Options:
 			log.Fatal(err)
 		}
 		defer f.Close()
-		printf("input:  [%s]...\n", input)
+		log.Printf("input:  [%s]...\n", input)
 
 		output = flag.Arg(1)
-		printf("output: [%s]...\n", output)
+		log.Printf("output: [%s]...\n", output)
 
 		tex, err := os.Create(output)
 		if err != nil {

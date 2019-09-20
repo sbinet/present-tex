@@ -5,14 +5,20 @@
 package main
 
 import (
-	"fmt"
 	"image"
+	"os"
+
 	_ "image/gif"
 	_ "image/jpeg"
 	_ "image/png"
-	"os"
+
+	_ "golang.org/x/image/bmp"
+	_ "golang.org/x/image/tiff"
+	_ "golang.org/x/image/vp8"
+	_ "golang.org/x/image/webp"
 
 	"golang.org/x/tools/present"
+	"golang.org/x/xerrors"
 )
 
 type Image struct {
@@ -33,7 +39,7 @@ func parseImages(doc *present.Doc) error {
 			case present.Image:
 				err = parseImage(&elem)
 				if err != nil {
-					return err
+					return xerrors.Errorf("could not parse image %w: %w", elem.URL, err)
 				}
 				img := Image{Image: elem}
 				if j+1 < len(section.Elem) {
@@ -52,7 +58,7 @@ func parseImages(doc *present.Doc) error {
 	}
 
 	if err != nil {
-		return err
+		return xerrors.Errorf("could not parse images: %w", err)
 	}
 
 	return parseCaptions(doc)
@@ -64,8 +70,8 @@ func parseImage(elem *present.Image) error {
 	if elem.Height == 0 || elem.Width == 0 {
 		f, err := os.Open(elem.URL)
 		if err != nil {
-			return fmt.Errorf(
-				"error opening file [%s]: %v",
+			return xerrors.Errorf(
+				"error opening file [%s]: %w",
 				elem.URL,
 				err,
 			)
@@ -73,8 +79,8 @@ func parseImage(elem *present.Image) error {
 		defer f.Close()
 		img, _, err := image.Decode(f)
 		if err != nil {
-			return fmt.Errorf(
-				"error decoding image file [%s]: %v",
+			return xerrors.Errorf(
+				"error decoding image file [%s]: %w",
 				elem.URL,
 				err,
 			)

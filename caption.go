@@ -5,10 +5,6 @@
 package main
 
 import (
-	_ "image/gif"
-	_ "image/jpeg"
-	_ "image/png"
-
 	"golang.org/x/tools/present"
 )
 
