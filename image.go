@@ -7,6 +7,8 @@ package main
 import (
 	"image"
 	"os"
+	"os/exec"
+	"strings"
 
 	_ "image/gif"
 	_ "image/jpeg"
@@ -66,6 +68,18 @@ func parseImages(doc *present.Doc) error {
 
 func parseImage(elem *present.Image) error {
 	var err error
+
+	if strings.HasSuffix(elem.URL, ".svg") {
+		oname := elem.URL[:len(elem.URL)-len(".svg")] + "_svg.png"
+		err := exec.Command("convert", elem.URL, oname).Run()
+		if err != nil {
+			return xerrors.Errorf(
+				"could not convert SVG image %q to PNG: %w",
+				elem.URL, err,
+			)
+		}
+		elem.URL = oname
+	}
 
 	if elem.Height == 0 || elem.Width == 0 {
 		f, err := os.Open(elem.URL)
