@@ -5,6 +5,8 @@
 package main
 
 import (
+	"strings"
+
 	"golang.org/x/tools/present"
 )
 
@@ -18,8 +20,11 @@ func parseCode(doc *present.Doc) error {
 				continue
 			case present.Code:
 				hasCode = true
-				if elem.Ext == ".cxx" {
+				switch strings.ToLower(elem.Ext) {
+				case ".cxx":
 					elem.Ext = ".cpp"
+				case ".f", ".f77", ".f90":
+					elem.Ext = ".fortran"
 				}
 				section.Elem[ii] = elem
 			}
