@@ -5,6 +5,7 @@
 package main
 
 import (
+	"fmt"
 	"image"
 	"os"
 	"os/exec"
@@ -20,7 +21,6 @@ import (
 	_ "golang.org/x/image/webp"
 
 	"golang.org/x/tools/present"
-	"golang.org/x/xerrors"
 )
 
 type Image struct {
@@ -41,7 +41,7 @@ func parseImages(doc *present.Doc) error {
 			case present.Image:
 				err = parseImage(&elem)
 				if err != nil {
-					return xerrors.Errorf("could not parse image %w: %w", elem.URL, err)
+					return fmt.Errorf("could not parse image %q: %w", elem.URL, err)
 				}
 				img := Image{Image: elem}
 				if j+1 < len(section.Elem) {
@@ -60,7 +60,7 @@ func parseImages(doc *present.Doc) error {
 	}
 
 	if err != nil {
-		return xerrors.Errorf("could not parse images: %w", err)
+		return fmt.Errorf("could not parse images: %w", err)
 	}
 
 	return parseCaptions(doc)
@@ -73,7 +73,7 @@ func parseImage(elem *present.Image) error {
 		oname := elem.URL[:len(elem.URL)-len(".svg")] + "_svg.png"
 		err := exec.Command("convert", elem.URL, oname).Run()
 		if err != nil {
-			return xerrors.Errorf(
+			return fmt.Errorf(
 				"could not convert SVG image %q to PNG: %w",
 				elem.URL, err,
 			)
@@ -84,7 +84,7 @@ func parseImage(elem *present.Image) error {
 	if elem.Height == 0 || elem.Width == 0 {
 		f, err := os.Open(elem.URL)
 		if err != nil {
-			return xerrors.Errorf(
+			return fmt.Errorf(
 				"error opening file [%s]: %w",
 				elem.URL,
 				err,
@@ -93,7 +93,7 @@ func parseImage(elem *present.Image) error {
 		defer f.Close()
 		img, _, err := image.Decode(f)
 		if err != nil {
-			return xerrors.Errorf(
+			return fmt.Errorf(
 				"error decoding image file [%s]: %w",
 				elem.URL,
 				err,
