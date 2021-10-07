@@ -21,25 +21,14 @@ import (
 	"bytes"
 	"flag"
 	"fmt"
-	"go/build"
 	"html/template"
 	"io"
+	"io/fs"
 	"log"
 	"os"
-	"path"
 	"strings"
 
 	"golang.org/x/tools/present"
-)
-
-const (
-	basePkg         = "github.com/sbinet/present-tex"
-	basePathMessage = `
-By default, present-tex locates the slide template files and associated
-static content by looking for a %q package
-in your Go workspaces (GOPATH).
-You may use the -base flag to specify an alternate location.
-`
 )
 
 var (
@@ -73,19 +62,20 @@ Options:
 	log.SetFlags(0)
 	log.SetPrefix("present-tex: ")
 
-	tmpldir := ""
-	flag.StringVar(&tmpldir, "base", "", "base path for slide templates")
+	tmpldirFlag := flag.String("base", "", "base path for slide templates")
 
 	flag.Parse()
 
-	if tmpldir == "" {
-		p, err := build.Default.Import(basePkg, "", build.FindOnly)
+	var tmpldir = func() fs.FS {
+		o, err := fs.Sub(tmplFS, "templates")
 		if err != nil {
-			fmt.Fprintf(os.Stderr, "Couldn't find present-tex files: %v\n", err)
-			fmt.Fprintf(os.Stderr, basePathMessage, basePkg)
-			os.Exit(1)
+			log.Fatalf("could not locate embedded 'templates' directory: %+v", err)
 		}
-		tmpldir = path.Join(p.Dir, "templates")
+		return o
+	}()
+
+	if *tmpldirFlag != "" {
+		tmpldir = os.DirFS(*tmpldirFlag)
 	}
 
 	var (
@@ -222,10 +212,9 @@ func unescapeHTML(data []byte) []byte {
 	return out
 }
 
-func initTemplates(base string) (*template.Template, error) {
-	fname := path.Join(base, "beamer.tmpl")
+func initTemplates(root fs.FS) (*template.Template, error) {
 	tmpl := template.New("").Funcs(funcs).Delims("<<", ">>")
-	_, err := tmpl.ParseFiles(fname)
+	_, err := tmpl.ParseFS(root, "beamer.tmpl")
 	if err != nil {
 		return nil, err
 	}
