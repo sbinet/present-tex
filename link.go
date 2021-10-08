@@ -15,7 +15,7 @@ func renderLink(href, text string) string {
 	if text == "" {
 		text = href
 	}
-	return fmt.Sprintf(`\myblue{\href{%s}{\texttt{%s}}}`, href, text)
+	return fmt.Sprintf(`\colhref{%s}{\texttt{%s}}`, href, text)
 }
 
 // parseInlineLink parses an inline link at the start of s, and returns
