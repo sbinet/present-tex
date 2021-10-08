@@ -21,7 +21,9 @@ func parseCode(doc *present.Doc) error {
 			case present.Code:
 				hasCode = true
 				switch strings.ToLower(elem.Ext) {
-				case ".cxx":
+				case ".h":
+					elem.Ext = ".c"
+				case ".cxx", ".hxx", ".cc", ".hh":
 					elem.Ext = ".cpp"
 				case ".f", ".f77", ".f90":
 					elem.Ext = ".fortran"
