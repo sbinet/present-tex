@@ -5,6 +5,7 @@
 package main
 
 import (
+	"github.com/sbinet/present-tex/latex"
 	"golang.org/x/tools/present"
 )
 
@@ -32,6 +33,6 @@ func parseCaptions(doc *present.Doc) error {
 
 func parseCaption(elem *present.Caption) error {
 	var err error
-	elem.Text = renderFont(elem.Text)
+	elem.Text = latex.UTF8(renderFont(elem.Text))
 	return err
 }

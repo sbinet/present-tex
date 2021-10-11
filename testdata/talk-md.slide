@@ -52,6 +52,7 @@ And here is some `python`:
 Images are supported, such as this lovely `PNG` gopher:
 
 .image _figs/gopher.png
+.caption _Gopher_ by [[http://www.reneefrench.com][Renée French]]
 
 ## `present-tex` and images (cont'd)
 

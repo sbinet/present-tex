@@ -103,13 +103,13 @@
 \begin{center}
 \includegraphics[width=<<.Width>>cm,height=<<.Height>>cm]{<<.URL>>}
 \end{center}
-<<if .HasCaption>><<template "caption" .Caption>><<end>>
+<<- if .HasCaption>><<template "caption" .Caption>><<end>>
 \end{figure}
 <<end>>
 
 <<define "caption">>
 \caption{<<.Text>>}
-<<end>>
+<<- end>>
 
 <<define "link">>
 \colhref{<<.URL>>}{\texttt{<<.Label|style>>}}
