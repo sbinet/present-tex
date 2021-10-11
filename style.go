@@ -20,7 +20,7 @@ func renderStyle(s string) template.HTML {
 
 // renderFont returns s with font indicators turned into LaTeX syntax.
 func renderFont(s string) string {
-	if strings.IndexAny(s, "[`_*") == -1 {
+	if !strings.ContainsAny(s, "[`_*") {
 		return s
 	}
 	words := split(s)
