@@ -5,6 +5,9 @@
 \usepackage{colortbl}
 \usepackage[english]{babel}
 
+\newcommand{\colhref}[3][blue]{\href{#2}{\color{#1}{#3}}}%
+
+
 \newcommand{\myblue} [1] {{\color{blue}#1}}
 \newcommand{\newauthor}[4]{
   \parbox{0.26\textwidth}{
@@ -12,7 +15,7 @@
       {
         \centering
         #1 \\
-        \myblue{{\href{#2}{\texttt{#3}}}} \\
+        \colhref{#2}{\texttt{#3}} \\
         #4 \\
       }
       {#1}
@@ -23,14 +26,13 @@
 % for code colouring
 \usepackage{minted}
 
-
 % beamer template
 \beamertemplatetransparentcovereddynamic
-\usetheme{default}
+\usetheme{Madrid}
 
 \hypersetup{%
   pdftitle={my talk: a nice talk},%
-   pdfauthor={Sebastien Binet},%
+  pdfauthor={Sebastien Binet},%
   pdfauthor={Evil Me},%
   pdfauthor={Evil \& You},%
 %
@@ -44,8 +46,8 @@
 		\centering
  		Sebastien Binet \\
  		CNRS/IN2P3 \\
- 		\myblue{\href{http://twitter.com/0xb1ns}{\texttt{@0xb1ns}}} \\
- 		\myblue{\href{https://github.com/sbinet}{\texttt{https://github.com/sbinet}}} \\
+ 		\colhref{http://twitter.com/0xb1ns}{\texttt{@0xb1ns}} \\
+ 		\colhref{https://github.com/sbinet}{\texttt{https://github.com/sbinet}} \\
  	  }
 	{Sebastien Binet}
 }
@@ -55,7 +57,7 @@
 	  {
 		\centering
  		Evil Me \\
- 		\myblue{\href{mailto:evil@example.com}{\texttt{evil@example.com}}} \\
+ 		\colhref{mailto:evil@example.com}{\texttt{evil@example.com}} \\
  	  }
 	{Evil Me}
 }
@@ -71,7 +73,7 @@
 }
  }
 
-
+\date{1979-01-01}
 
 \begin{document}
 
@@ -82,17 +84,23 @@
 
 \section[slides]{slides}
 
+
 \begin{frame}[fragile]
-\frametitle{A chapter}
-
-
+  \begin{columns}
+    \begin{column}{0.7\textwidth}
+      \begin{block}{}
+        \begin{center}
+          A chapter\ldots
+        \end{center}
+      \end{block}
+    \end{column}
+  \end{columns}
 \end{frame}
 
 \begin{frame}[fragile]
 \frametitle{A title}
 
-
-\myblue{\href{https://github.com/sbinet/present-tex}{\texttt{present-tex}}} converts a \texttt{.slide} presentation to a \texttt{LaTeX/Beamer} presentation.
+\colhref{https://github.com/sbinet/present-tex}{\texttt{present-tex}} converts a \texttt{.slide} presentation to a \texttt{LaTeX/Beamer} presentation.
 
 
 Here are some bullets:
@@ -103,12 +111,10 @@ Here are some bullets:
 \item but not numbered
 \end{itemize}
 
-
 \end{frame}
 
 \begin{frame}[fragile]
 \frametitle{\texttt{present-tex} and \texttt{code}}
-
 
 Consider this simple package \texttt{github.com/me/hello}:
 
@@ -126,12 +132,10 @@ func main() {
 
 \end{minted}
 
-
 \end{frame}
 
 \begin{frame}[fragile]
 \frametitle{\texttt{present-tex} and \texttt{play}}
-
 
 \texttt{present-tex} has some limited supported for \texttt{.play}:
 
@@ -149,12 +153,10 @@ func main() {
 
 \end{minted}
 
-
 \end{frame}
 
 \begin{frame}[fragile]
 \frametitle{\texttt{.code} support}
-
 
 \texttt{present-tex} infers the language of a \texttt{.code} snippet based on the file extension.
 
@@ -182,42 +184,41 @@ print("hello world")
 
 \end{minted}
 
-
 \end{frame}
 
 \begin{frame}[fragile]
 \frametitle{\texttt{present-tex} and images}
 
-
 Images are supported, such as this lovely \texttt{PNG} gopher:
 
 
+\begin{figure}[h]
 \begin{center}
 \includegraphics[width=3cm,height=4cm]{_figs/gopher.png}
 \end{center}
-
+\caption{\emph{Gopher} by \colhref{http://www.reneefrench.com}{\texttt{Ren\'ee French}}}
+\end{figure}
 
 \end{frame}
 
 \begin{frame}[fragile]
 \frametitle{\texttt{present-tex} and images (cont'd)}
 
-
 or that lovely gopher:
 
 
+\begin{figure}[h]
 \begin{center}
 \includegraphics[width=3cm,height=4cm]{_figs/gopher.png}
 \end{center}
-
+\end{figure}
 
 \end{frame}
 
 \begin{frame}[fragile]
 \frametitle{\texttt{present-tex} and text formatting}
 
-
-\texttt{present-tex} should be able to correctly handle URLs like \myblue{\href{https://github.com/sbinet/present-tex}{\texttt{so}}}.
+\texttt{present-tex} should be able to correctly handle URLs like \colhref{https://github.com/sbinet/present-tex}{\texttt{so}}.
 
 
 But, also, \textbf{bold} text and text in \emph{italics}.
@@ -226,7 +227,7 @@ But, also, \textbf{bold} text and text in \emph{italics}.
 Special \texttt{LaTeX} characters, such as \&\{\}\textbackslash\$\%\^{}\_\#, are also correctly handled.
 
 
-\myblue{\href{https://github.com/sbinet/present-tex}{\texttt{github.com/sbinet/present-tex}}}
+\colhref{https://github.com/sbinet/present-tex}{\texttt{github.com/sbinet/present-tex}}
 
 Snippets of code look like so:
 
@@ -239,11 +240,10 @@ $> exit
 \end{verbatim}
 
 
-\myblue{\href{https://github.com/sbinet/present-tex}{\texttt{github.com/sbinet/present-tex}}} is still a \emph{work in progress}.
+\colhref{https://github.com/sbinet/present-tex}{\texttt{github.com/sbinet/present-tex}} is still a \emph{work in progress}.
 
 
 \textbf{The END.}
-
 
 
 \end{frame}

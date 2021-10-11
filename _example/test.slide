@@ -1,5 +1,6 @@
 my talk: a nice talk
-A conference, 1979/01/01
+A conference
+1 Jan 1979
 
 Sebastien Binet
 CNRS/IN2P3
@@ -52,6 +53,7 @@ And here is some `python`:
 Images are supported, such as this lovely `PNG` gopher:
 
 .image _figs/gopher.png
+.caption _Gopher_ by [[http://www.reneefrench.com][Renée French]]
 
 * `present-tex` and images (cont'd)
 

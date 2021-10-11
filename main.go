@@ -280,9 +280,9 @@ func init() {
 			if name == "" {
 				continue
 			}
-			out = append(out, fmt.Sprintf(" pdfauthor={%s},%%\n", style(name)))
+			out = append(out, fmt.Sprintf("pdfauthor={%s},%%\n", style(name)))
 		}
-		return strings.Join(out, " ")
+		return strings.Join(out, "  ")
 	}
 
 	funcs["texAuthor"] = func(authors []present.Author) string {
