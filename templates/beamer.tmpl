@@ -1,7 +1,6 @@
 {/* This is the beamer slide template. It defines how presentations are formatted. */}
 
-<<define "root">>
-\documentclass[9pt]{beamer}
+<<define "root">>\documentclass[9pt]{beamer}
 
 \usepackage[latin1]{inputenc}
 \usepackage{colortbl}
@@ -40,6 +39,7 @@
 
 \title[<<.Title | style>>]{<<.Title|style>>}
 <<.Authors | texAuthor>>
+<<if .Subtitle>>\subtitle{<<.Subtitle | style>>}<<- end>>
 <<if not .Time.IsZero>>\date{<<.Time.Format "2006-01-02">>}<<end>>
 
 \begin{document}
@@ -111,8 +111,7 @@
 \caption{<<.Text>>}
 <<- end>>
 
-<<define "link">>
-\colhref{<<.URL>>}{\texttt{<<.Label|style>>}}
+<<define "link">>\colhref{<<.URL>>}{\texttt{<<.Label|style>>}}
 <<end>>
 
 <<define "html">>
