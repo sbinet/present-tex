@@ -21,6 +21,7 @@ import (
 	"bytes"
 	"flag"
 	"fmt"
+	"html"
 	"html/template"
 	"io"
 	"io/fs"
@@ -159,57 +160,12 @@ Options:
 		log.Fatal(err)
 	}
 
-	out := unescapeHTML(buf.Bytes())
+	out := []byte(html.UnescapeString(buf.String()))
 
 	_, err = w.Write(out)
 	if err != nil {
 		log.Fatalf("could not fill output: %v\n", err)
 	}
-}
-
-func unescapeHTML(data []byte) []byte {
-	out := make([]byte, len(data))
-	copy(out, data)
-	for _, r := range []struct {
-		old string
-		new string
-	}{
-		{
-			old: "&lt;",
-			new: "<",
-		},
-		{
-			old: "&gt;",
-			new: ">",
-		},
-		{
-			old: "&#43;",
-			new: "+",
-		},
-		{
-			old: "&#34;",
-			new: `"`,
-		},
-		{
-			old: "&#39;",
-			new: "'",
-		},
-		{
-			old: "&quot;",
-			new: `"`,
-		},
-		{
-			old: "&amp;",
-			new: "&",
-		},
-		{
-			old: "&nbsp;",
-			new: " ",
-		},
-	} {
-		out = bytes.Replace(out, []byte(r.old), []byte(r.new), -1)
-	}
-	return out
 }
 
 func initTemplates(root fs.FS) (*template.Template, error) {
@@ -358,7 +314,7 @@ func renderAuthor(author present.Author) []string {
 		if err != nil {
 			log.Fatal(err)
 		}
-		elem := string(unescapeHTML([]byte(str)))
+		elem := html.UnescapeString(string(str))
 		elem = strings.Trim(elem, "\n")
 		elems = append(elems, elem)
 	}
