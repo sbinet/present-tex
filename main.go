@@ -134,38 +134,50 @@ Options:
 		os.Exit(2)
 	}
 
-	doc, err := present.Parse(r, input, 0)
+	err := xmain(w, r, input, tmpldir)
 	if err != nil {
-		log.Fatal(err)
+		log.Fatalf("could not run present-tex: %+v", err)
+	}
+}
+
+func xmain(w io.Writer, r io.Reader, input string, tmpldir fs.FS) error {
+	ctx := present.Context{
+		ReadFile: os.ReadFile,
+	}
+	doc, err := ctx.Parse(r, input, 0)
+	if err != nil {
+		return fmt.Errorf("could not parse input document: %w", err)
 	}
 
 	err = parseImages(doc)
 	if err != nil {
-		log.Fatal(err)
+		return fmt.Errorf("could not parse images: %w", err)
 	}
 
 	err = parseCode(doc)
 	if err != nil {
-		log.Fatal(err)
+		return fmt.Errorf("could not parse code fragments: %w", err)
 	}
 
 	tmpl, err = initTemplates(tmpldir)
 	if err != nil {
-		log.Fatal(err)
+		return fmt.Errorf("could not parse templates: %w", err)
 	}
 
 	buf := new(bytes.Buffer)
 	err = doc.Render(buf, tmpl)
 	if err != nil {
-		log.Fatal(err)
+		return fmt.Errorf("could not render document: %w", err)
 	}
 
 	out := []byte(html.UnescapeString(buf.String()))
 
 	_, err = w.Write(out)
 	if err != nil {
-		log.Fatalf("could not fill output: %v\n", err)
+		return fmt.Errorf("could not fill output: %w", err)
 	}
+
+	return nil
 }
 
 func initTemplates(root fs.FS) (*template.Template, error) {
