@@ -1,0 +1,80 @@
+my talk: a nice talk
+A conference, 1979/01/01
+
+Sebastien Binet
+CNRS/IN2P3
+@0xb1ns
+https://github.com/sbinet
+
+Evil Me
+evil@example.com
+
+Evil & You
+Evil Corp.
+
+* A chapter
+
+* A title
+
+[[https://github.com/sbinet/present-tex][present-tex]] converts a `.slide` presentation to a `LaTeX/Beamer` presentation.
+
+Here are some bullets:
+
+- correctly rendered
+- but not numbered
+
+* `present-tex` and `code`
+
+Consider this simple package `github.com/me/hello`:
+
+.code _code/hello.go
+
+* `present-tex` and `play`
+
+`present-tex` has some limited supported for `.play`:
+
+.play _code/hello.go
+
+* `.code` support
+
+`present-tex` infers the language of a `.code` snippet based on the file extension.
+
+Here is some `C`:
+
+.code _code/hello.c
+
+And here is some `python`:
+
+.code _code/hello.py
+
+* `present-tex` and images
+
+Images are supported, such as this lovely `PNG` gopher:
+
+.image _figs/gopher.png
+
+* `present-tex` and images (cont'd)
+
+or that lovely gopher:
+
+.image _figs/gopher.png 300 245
+
+* `present-tex` and text formatting
+
+`present-tex` should be able to correctly handle URLs like [[https://github.com/sbinet/present-tex][so]].
+
+But, also, *bold* text and text in _italics_.
+
+Special `LaTeX` characters, such as &{}\$%^_#, are also correctly handled.
+
+.link https://github.com/sbinet/present-tex
+
+Snippets of code look like so:
+
+ $> ls /my/dir
+ $> exit
+
+[[https://github.com/sbinet/present-tex]] is still a _work_in_progress_.
+
+
+*The*END.*
