@@ -27,7 +27,7 @@
 <<if hasCode>>
 % for code colouring
 \usepackage{minted}
-<<end>>
+<<- end>>
 
 % beamer template
 \beamertemplatetransparentcovereddynamic
@@ -50,13 +50,23 @@
 \part<presentation>{Main Talk}
 
 \section[slides]{slides}
+
 <<range $i, $s := .Sections>>
 \begin{frame}[fragile]
+<<- if $s.Elem>>
 \frametitle{<<$s.Title | style>>}
-<<if $s.Elem>>
 <<range $s.Elem>><<elem $.Template .>><<end>>
-<<else>>
-<<end>>
+<<- else>>
+  \begin{columns}
+    \begin{column}{0.7\textwidth}
+      \begin{block}{}
+        \begin{center}
+          <<$s.Title | style>>\ldots
+        \end{center}
+      \end{block}
+    \end{column}
+  \end{columns}
+<<- end>>
 \end{frame}
 <<end>><</* of Slide block */>>
 \end{document}
@@ -105,3 +115,12 @@
 \colhref{<<.URL>>}{\texttt{<<.Label|style>>}}
 <<end>>
 
+<<define "html">>
+\begin{verbatim}
+<<.HTML>>
+\end{verbatim}
+<<end>>
+
+<<define "latex">>
+<<.Latex>>
+<<end>>

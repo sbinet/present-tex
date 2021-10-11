@@ -102,7 +102,6 @@
 
 \colhref{https://github.com/sbinet/present-tex}{\texttt{present-tex}} converts a \texttt{.slide} presentation to a \texttt{LaTeX/Beamer} presentation.
 
-
 Here are some bullets:
 
 
@@ -111,12 +110,14 @@ Here are some bullets:
 \item but not numbered
 \end{itemize}
 
+
 \end{frame}
 
 \begin{frame}[fragile]
 \frametitle{\texttt{present-tex} and \texttt{code}}
 
 Consider this simple package \texttt{github.com/me/hello}:
+
 
 
 \begin{minted}[]{go}
@@ -140,6 +141,7 @@ func main() {
 \texttt{present-tex} has some limited supported for \texttt{.play}:
 
 
+
 \begin{minted}[]{go}
 package main
 
@@ -160,8 +162,8 @@ func main() {
 
 \texttt{present-tex} infers the language of a \texttt{.code} snippet based on the file extension.
 
-
 Here is some \texttt{C}:
+
 
 
 \begin{minted}[]{c}
@@ -175,6 +177,7 @@ int main(int argc, char **argv) {
 \end{minted}
 
 And here is some \texttt{python}:
+
 
 
 \begin{minted}[]{py}
@@ -192,6 +195,7 @@ print("hello world")
 Images are supported, such as this lovely \texttt{PNG} gopher:
 
 
+
 \begin{figure}[h]
 \begin{center}
 \includegraphics[width=3cm,height=4cm]{_figs/gopher.png}
@@ -207,6 +211,7 @@ Images are supported, such as this lovely \texttt{PNG} gopher:
 or that lovely gopher:
 
 
+
 \begin{figure}[h]
 \begin{center}
 \includegraphics[width=3cm,height=4cm]{_figs/gopher.png}
@@ -217,15 +222,30 @@ or that lovely gopher:
 \end{frame}
 
 \begin{frame}[fragile]
+\frametitle{\texttt{present-tex} and images (cont'd)}
+
+Now using \texttt{CommonMark} syntax:
+
+\begin{figure}[h]
+\begin{center}
+\includegraphics[width=3cm,height=4cm]{_figs/gopher.png}
+\end{center}
+\end{figure}
+
+
+
+
+\end{frame}
+
+\begin{frame}[fragile]
 \frametitle{\texttt{present-tex} and text formatting}
 
 \texttt{present-tex} should be able to correctly handle URLs like \colhref{https://github.com/sbinet/present-tex}{\texttt{so}}.
 
-
 But, also, \textbf{bold} text and text in \emph{italics}.
 
-
 Special \texttt{LaTeX} characters, such as \&\{\}\textbackslash\$\%\^{}\_\#, are also correctly handled.
+
 
 
 \colhref{https://github.com/sbinet/present-tex}{\texttt{github.com/sbinet/present-tex}}
@@ -233,18 +253,15 @@ Special \texttt{LaTeX} characters, such as \&\{\}\textbackslash\$\%\^{}\_\#, are
 Snippets of code look like so:
 
 
-
 \begin{verbatim}
 $> ls /my/dir
 $> exit
 
 \end{verbatim}
-
-
 \colhref{https://github.com/sbinet/present-tex}{\texttt{github.com/sbinet/present-tex}} is still a \emph{work in progress}.
 
-
 \textbf{The END.}
+
 
 
 \end{frame}

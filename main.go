@@ -143,7 +143,9 @@ Options:
 func xmain(w io.Writer, r io.Reader, input string, tmpldir fs.FS) error {
 	ctx := present.Context{
 		ReadFile: os.ReadFile,
+		Render:   renderAsLaTeX,
 	}
+
 	doc, err := ctx.Parse(r, input, 0)
 	if err != nil {
 		return fmt.Errorf("could not parse input document: %w", err)
@@ -236,6 +238,7 @@ func init() {
 		"î", `\^i`,
 		"ô", `\^o`,
 		"û", `\^u`,
+		"ä", `\"a`,
 		"ë", `\"e`,
 		"ï", `\"i`,
 		"ü", `\"u`,

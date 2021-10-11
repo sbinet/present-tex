@@ -34,6 +34,10 @@ func TestConvert(t *testing.T) {
 			input: "talk.slide",
 			want:  "talk_golden.tex",
 		},
+		{
+			input: "talk-md.slide",
+			want:  "talk-md_golden.tex",
+		},
 	} {
 		t.Run("", func(t *testing.T) {
 			r, err := os.ReadFile(tc.input)
