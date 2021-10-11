@@ -7,6 +7,7 @@ package main
 import (
 	"fmt"
 	"image"
+	"log"
 	"os"
 	"os/exec"
 	"strings"
@@ -73,10 +74,11 @@ func parseImage(elem *present.Image) error {
 		oname := elem.URL[:len(elem.URL)-len(".svg")] + "_svg.png"
 		err := exec.Command("convert", elem.URL, oname).Run()
 		if err != nil {
-			return fmt.Errorf(
-				"could not convert SVG image %q to PNG: %w",
-				elem.URL, err,
-			)
+			log.Printf("could not convert SVG image %q to PNG: %+v", elem.URL, err)
+			//	return fmt.Errorf(
+			//		"could not convert SVG image %q to PNG: %w",
+			//		elem.URL, err,
+			//	)
 		}
 		elem.URL = oname
 	}

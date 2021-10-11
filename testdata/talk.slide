@@ -62,6 +62,13 @@ or that lovely gopher:
 .image _figs/gopher.png 300 245
 .caption _Gopher_ by [[http://www.reneefrench.com][Renée French]]
 
+## `present-tex` and images (cont'd)
+
+or that lovely [[https://en.wikipedia.org/wiki/Scalable_Vector_Graphics][SVG]] gopher:
+
+.image _figs/gopher.svg 300 245
+.caption _Gopher_ by [[http://www.reneefrench.com][Renée French]]
+
 * `present-tex` and text formatting
 
 `present-tex` should be able to correctly handle URLs like [[https://github.com/sbinet/present-tex][so]].

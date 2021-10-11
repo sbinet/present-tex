@@ -64,6 +64,13 @@ or that lovely gopher:
 
 ## `present-tex` and images (cont'd)
 
+or that lovely [SVG](https://en.wikipedia.org/wiki/Scalable_Vector_Graphics) gopher:
+
+.image _figs/gopher.svg 300 245
+.caption _Gopher_ by [[http://www.reneefrench.com][Renée French]]
+
+## `present-tex` and images (cont'd)
+
 Now using `CommonMark` syntax:
 
 ![gopher](_figs/gopher.png)
