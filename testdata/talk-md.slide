@@ -73,6 +73,7 @@ Now using `CommonMark` syntax:
 `present-tex` should be able to correctly handle URLs like [so](https://github.com/sbinet/present-tex).
 
 But, also, **bold** text and text in _italics_.
+It should correctly handle `foo_bar`.
 
 Special `LaTeX` characters, such as &{}\$%^_#, are also correctly handled.
 

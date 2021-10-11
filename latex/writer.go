@@ -90,6 +90,7 @@ var (
 		"æ", `\ae `,
 		"œ", `\oe `,
 	)
+
 	latexUTF8 = strings.NewReplacer(
 		"⇒", `$\Rightarrow$ `,
 		"—", `---`,

@@ -359,7 +359,7 @@ func (r *Renderer) renderCodeSpan(w util.BufWriter, source []byte, n ast.Node, e
 		_, _ = w.WriteString("\\texttt{")
 		for c := n.FirstChild(); c != nil; c = c.NextSibling() {
 			segment := c.(*ast.Text).Segment
-			value := segment.Value(source)
+			value := escapeLaTeX(segment.Value(source))
 			if bytes.HasSuffix(value, []byte("\n")) {
 				r.w.RawWrite(w, value[:len(value)-1])
 				if c != n.LastChild() {
