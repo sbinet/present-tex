@@ -27,6 +27,8 @@ func parseCode(doc *present.Doc) error {
 					elem.Ext = ".cpp"
 				case ".f", ".f77", ".f90":
 					elem.Ext = ".fortran"
+				case ".txt":
+					elem.Ext = "sh"
 				}
 				section.Elem[ii] = elem
 			}

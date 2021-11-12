@@ -22,6 +22,7 @@ var replacer = strings.NewReplacer(
 	"<-", `$\leftarrow$ `,
 	"⇒", `$\Rightarrow$ `,
 	"—", `---`,
+	"±", `$\pm$`,
 )
 
 func renderAsLaTeX(input []byte) (present.Elem, error) {
