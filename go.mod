@@ -3,8 +3,8 @@ module github.com/sbinet/present-tex
 go 1.19
 
 require (
-	github.com/yuin/goldmark v1.5.4
-	golang.org/x/image v0.6.0
+	github.com/yuin/goldmark v1.6.0
+	golang.org/x/image v0.13.0
 	golang.org/x/tools v0.7.0
 )
 
