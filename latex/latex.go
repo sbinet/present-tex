@@ -346,7 +346,7 @@ func (r *Renderer) renderAutoLink(w util.BufWriter, source []byte, node ast.Node
 	if n.AutoLinkType == ast.AutoLinkEmail && !bytes.HasPrefix(bytes.ToLower(url), []byte("mailto:")) {
 		_, _ = w.WriteString("mailto:")
 	}
-	_, _ = w.Write(util.EscapeHTML(util.URLEscape(url, false)))
+	_, _ = w.Write(bytes.Replace(util.EscapeHTML(util.URLEscape(url, false)), []byte("#"), []byte(`\#`), 1))
 	_, _ = w.WriteString("}{")
 	return ast.WalkContinue, nil
 }
@@ -399,7 +399,7 @@ func (r *Renderer) renderLink(w util.BufWriter, source []byte, node ast.Node, en
 	n := node.(*ast.Link)
 	if entering {
 		_, _ = w.WriteString("\\colhref{")
-		_, _ = w.Write(util.EscapeHTML(util.URLEscape(n.Destination, true)))
+		_, _ = w.Write(bytes.Replace(util.EscapeHTML(util.URLEscape(n.Destination, true)), []byte("#"), []byte(`\#`), 1))
 		_, _ = w.WriteString("}{\\texttt{")
 	} else {
 		_, _ = w.WriteString("}}")
