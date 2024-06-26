@@ -4,7 +4,7 @@ go 1.19
 
 require (
 	github.com/yuin/goldmark v1.6.0
-	golang.org/x/image v0.14.0
+	golang.org/x/image v0.18.0
 	golang.org/x/tools v0.7.0
 )
 
