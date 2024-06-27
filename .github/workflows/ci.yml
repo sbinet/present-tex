@@ -23,7 +23,7 @@ jobs:
     runs-on: ${{ matrix.platform }}
     steps:
     - name: Install Go
-      uses: actions/setup-go@v2
+      uses: actions/setup-go@v5
       with:
         go-version: ${{ matrix.go-version }}
 
@@ -33,10 +33,10 @@ jobs:
         git config --global core.eol lf
 
     - name: Checkout code
-      uses: actions/checkout@v2
+      uses: actions/checkout@v4
 
     - name: Cache-Go
-      uses: actions/cache@v1
+      uses: actions/cache@v4
       with:
         # In order:
         # * Module download cache
@@ -80,6 +80,12 @@ jobs:
       if: matrix.platform == 'macos-latest'
       run: |
         go run ./ci/run-tests.go $TAGS
+    - name: static-check
+      uses: dominikh/staticcheck-action@v1
+      with:
+        install-go: false
+        cache-key: ${{ matrix.platform }}
+        version: "2023.1.6"
     - name: Upload-Coverage
       if: matrix.platform == 'ubuntu-latest'
       uses: codecov/codecov-action@v1
